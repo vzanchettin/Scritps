@@ -37,9 +37,11 @@ for account in `${zmProv} -l gaa`; do
 			echo "Conta atingiu o limite, será notificado o responsável e tomado ações." >> securityZimbra.log;
 			echo "A conta será bloqueada para evitar futuros problemas."  >> securityZimbra.log;
 			echo "A senha foi alterada para ${geradorDeSenha}" >> securityZimbra.log;
-
+			
+			# envia o e-mail
 			${sendEmail} -f ${mailFrom} -t ${mailTo} -xu ${mailUser} -xp ${mailPass} -u "Limite atingido para ${account}" -m "O limite de autenticações para a conta de e-mail ${account} foi atingido, favor averiguar a mesma" -s ${mailServer};
-
+			
+			# bloqueia e troca a senha da conta
 			${zmProv} ma ${account} zimbraAccountStatus locked;
 			${zmProv} sp ${account} ${geradorDeSenha};
 
