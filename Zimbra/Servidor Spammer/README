@@ -1,0 +1,16 @@
+# para enviar e-mails
+Instalar o sendemail para o envio de e-mails.
+
+# Configuração do logrotate
+# editar o arquivo
+pico /etc/logrotate.d/security-zimbra
+
+# incluir isto no arquivo
+/etc/securityzimbra/securityZimbra.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    notifempty
+}
+
