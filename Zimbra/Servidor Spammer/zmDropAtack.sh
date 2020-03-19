@@ -2,7 +2,7 @@
 
 # documentacoes
 # script escrito por Vinicio Zanchettin, para automatizar quando um spammer encontra uma senha de usuário.
-# zanchettin@gmail.com
+# vzanchettin@gmail.com
 
 # Variaveis globais
 data=`date`;
