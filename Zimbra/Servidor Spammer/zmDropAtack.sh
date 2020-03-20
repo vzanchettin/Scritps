@@ -39,7 +39,7 @@ for account in `${zmProv} -l gaa`; do
 			echo "A senha foi alterada para ${geradorDeSenha}" >> securityZimbra.log;
 			
 			# envia o e-mail
-			${sendEmail} -f ${mailFrom} -t ${mailTo} -xu ${mailUser} -xp ${mailPass} -u "Limite atingido para ${account}" -m "O limite de autenticações para a conta de e-mail ${account} foi atingido, favor averiguar a mesma" -s ${mailServer};
+			${sendEmail} -f ${mailFrom} -t ${mailTo} -xu ${mailUser} -xp ${mailPass} -u "Limite atingido para ${account}" -m "O limite de autenticações para a conta de e-mail ${account} foi atingido, favor averiguar a mesma" -s ${mailServer} >> securityZimbra.log;
 			
 			# bloqueia e troca a senha da conta
 			${zmProv} ma ${account} zimbraAccountStatus locked;
