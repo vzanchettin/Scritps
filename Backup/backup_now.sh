@@ -2,6 +2,7 @@
 
 GET_DATE=`date +%d-%m-%Y`;
 GET_TIME=`date +%H-%M-%S`;
+GET_DAY=`date +%w`;
 GET_TAR=`which tar`;
 
 # Change the store and log file place
@@ -53,6 +54,7 @@ function backup_with_tar {
 	GET_DATE=`date +%d-%m-%Y`;
 	GET_TIME=`date +%H-%M-%S`;
 	echo "Starting tar backups at ${GET_DATE} ${GET_TIME}." >> ${SET_LOGFILE};
+	echo "" >> ${SET_LOGFILE};
 
 	for FOLDER in ${SET_TAR_FOLDER_TO_COPY}; do
 
@@ -86,6 +88,8 @@ function backup_with_tar {
 		tar -cvzf ${SET_TAR_BACKUP_STORAGE}/${GET_FOLDER_NAME}/${GET_FOLDER_NAME}_${GET_DAY}.tar.gz ${FOLDER} --listed-incremental=${SET_TAR_BACKUP_STORAGE}/${GET_FOLDER_NAME}/${GET_FOLDER_NAME}.snap --verbose
 		echo "Backup folder ${FOLDER} finished." >> ${SET_LOGFILE};
 
+		GET_TAR_FILE_SIZE=`du -sh ${SET_TAR_BACKUP_STORAGE}/${GET_FOLDER_NAME}/${GET_FOLDER_NAME}_${GET_DAY}.tar.gz |cut -f1`;
+		echo "Backuped size of ${FOLDER} is ${GET_TAR_FILE_SIZE}." >> ${SET_LOGFILE};
 
 		if [ -e ${SET_TAR_BACKUP_STORAGE}/${GET_FOLDER_NAME}/${GET_FOLDER_NAME}_${GET_DAY}.tar.gz.old ]; then
 
@@ -93,6 +97,8 @@ function backup_with_tar {
 			rm -rf ${SET_TAR_BACKUP_STORAGE}${FOLDER}/${GET_FOLDER_NAME}_${GET_DAY}.tar.gz.old; 
 
 		fi
+
+	echo "" >> ${SET_LOGFILE};
 
 	done
 }
