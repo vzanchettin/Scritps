@@ -17,7 +17,7 @@ SET_LOGFILE="/var/log/backup_now.log";
 # Change if you do a tar backup files
 SET_TAR_BINARY=`which tar`;
 SET_TAR_BACKUP_STORAGE="${SET_BACKUP_STORAGE}/tar-backups";
-SET_TAR_FOLDER_TO_COPY="/var/spool /etc /usr/bin"; # Where you can input some folders to backup, like /var/www /home.
+SET_TAR_FOLDER_TO_COPY="/var/spool /etc"; # Where you can input some folders to backup, like /var/www /home.
 SET_DAY_TO_BACKUP_FULL="1"; # Where 1 (mon), 2 (tue), 3 (wed), 4 (thu), 5 (fri) and 6 (sat).
 
 # Change if you do a mysql backup
@@ -159,6 +159,6 @@ function backup_with_mysqldump {
 # Dependencies
 create_base_directories;
 
-# Backups type
+# Uncoment the backups type you want to do
 #backup_with_tar;
-backup_with_mysqldump;
+#backup_with_mysqldump;
