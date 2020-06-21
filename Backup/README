@@ -1,6 +1,8 @@
+# Configuring logrotate
+# Create and edit this file
+pico /etc/logrotate.d/backup_now
 
-
-# incluir isto no arquivo
+# To put this into a file
 /var/log/backup_now.log {
     daily
     missingok
