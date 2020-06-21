@@ -1,0 +1,10 @@
+
+
+# incluir isto no arquivo
+/var/log/backup_now.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    notifempty
+}
