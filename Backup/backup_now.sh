@@ -9,15 +9,25 @@ SET_MV_BINARY=`which mv`;
 SET_CP_BINARY=`which cp`;
 SET_RM_BINARY=`which rm`;
 SET_MKDIR_BINARY=`which mkdir`;
+SET_SENDEMAIL_BINARY=`which sendemail`;
 
 # Change the store and log file place
 SET_BACKUP_STORAGE="/backups";
 SET_LOGFILE="/var/log/backup_now.log";
 
+# Change to send e-mails
+SET_SMTP_HOST="webmail.cliente.com.br:587";
+SET_SMTP_USER="backups@cliente.com.br";
+SET_SMTP_PASS="HsuEc8scEd";
+SET_SMTP_SUBJECT="Backup cliente";
+SET_SMTP_BODY="Backup automatico do cliente";
+SET_SMTP_SENDER="backups@cliente.com.br";
+SET_SMTP_RECIPIENT="cliente@cliente.com.br";
+
 # Change if you do a tar backup files
 SET_TAR_BINARY=`which tar`;
 SET_TAR_BACKUP_STORAGE="${SET_BACKUP_STORAGE}/tar-backups";
-SET_TAR_FOLDER_TO_COPY="/var/spool /etc"; # Where you can input some folders to backup, like /var/www /home.
+SET_TAR_FOLDER_TO_COPY="/home /etc"; # Where you can input some folders to backup, like /var/www /home.
 SET_DAY_TO_BACKUP_FULL="1"; # Where 1 (mon), 2 (tue), 3 (wed), 4 (thu), 5 (fri) and 6 (sat).
 
 # Change if you do a mysql backup
@@ -26,7 +36,7 @@ SET_MYSQL_BINARY=`which mysql`;
 SET_MYSQLDUMP_BINARY=`which mysqldump`;
 SET_MYSQL_HOST="localhost";
 SET_MYSQL_USER="root";
-SET_MYSQL_PASS="123";
+SET_MYSQL_PASS="root123";
 GET_MYSQL_DATABASES=`${SET_MYSQL_BINARY} -u${SET_MYSQL_USER} -h${SET_MYSQL_HOST} -p${SET_MYSQL_PASS} -e "SHOW DATABASES" | sort | sed '/Database\|information_schema\|performance_schema/d'`;
 
 echo "" >> ${SET_LOGFILE};
@@ -72,6 +82,13 @@ function create_base_directories {
         fi
 
 	echo "" >> ${SET_LOGFILE};
+
+}
+
+function sendemail_to_admin {
+
+	${SET_SENDEMAIL_BINARY} -xu ${SET_SMTP_USER} -xp ${SET_SMTP_PASS} -f ${SET_SMTP_SENDER} -t ${SET_SMTP_RECIPIENT} -o tls=auto \
+	-s ${SET_SMTP_HOST} -u ${SET_SMTP_SUBJECT} -m ${SET_SMTP_BODY} -a $1 
 
 }
 
@@ -151,6 +168,10 @@ function backup_with_mysqldump {
                 echo "Backuped size of ${DATABASE} is ${GET_MYSQL_FILE_SIZE}." >> ${SET_LOGFILE};
 
 		echo "" >> ${SET_LOGFILE};
+		echo "Sending the database ${DATABASE} to mail." >> ${SET_LOGFILE};
+		sendemail_to_admin ${SET_MYSQL_BACKUP_STORAGE}/${DATABASE}_${GET_DAY}.sql.gz;
+
+		echo "" >> ${SET_LOGFILE};
 
 	done
 
@@ -161,4 +182,5 @@ create_base_directories;
 
 # Uncoment the backups type you want to do
 #backup_with_tar;
-#backup_with_mysqldump;
+backup_with_mysqldump;
+
