@@ -167,7 +167,6 @@ function backup_with_mysqldump {
 		GET_MYSQL_FILE_SIZE=`du -sh ${SET_MYSQL_BACKUP_STORAGE}/${DATABASE}_${GET_DAY}.sql.gz |cut -f1`;
                 echo "Backuped size of ${DATABASE} is ${GET_MYSQL_FILE_SIZE}." >> ${SET_LOGFILE};
 
-		echo "" >> ${SET_LOGFILE};
 		echo "Sending the database ${DATABASE} to mail." >> ${SET_LOGFILE};
 		sendemail_to_admin ${SET_MYSQL_BACKUP_STORAGE}/${DATABASE}_${GET_DAY}.sql.gz;
 
