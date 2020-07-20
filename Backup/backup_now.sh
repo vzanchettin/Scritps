@@ -181,6 +181,6 @@ function backup_with_mysqldump {
 create_base_directories;
 
 # Uncoment the backups type you want to do
-#backup_with_tar;
+backup_with_tar;
 backup_with_mysqldump;
 
