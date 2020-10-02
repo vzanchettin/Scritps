@@ -3,7 +3,7 @@
 # Global
 GET_DATE=`date +%d-%m-%Y`;
 GET_TIME=`date +%H-%M-%S`;
-GET_DAY=`date +%w`;
+GET_DAY=`date +%a`;
 
 SET_MV_BINARY=`which mv`;
 SET_CP_BINARY=`which cp`;
@@ -116,7 +116,7 @@ function backup_with_tar {
 
 		GET_DATE=`date +%d-%m-%Y`;
 		GET_TIME=`date +%H-%M-%S`;
-		GET_DAY=`date +%w`;
+		GET_DAY=`date +%a`;
 
 		if [ ${GET_DAY} = ${SET_DAY_TO_BACKUP_FULL} ]; then
 
@@ -158,7 +158,7 @@ function backup_with_mysqldump {
 
                 GET_DATE=`date +%d-%m-%Y`;
                 GET_TIME=`date +%H-%M-%S`;
-                GET_DAY=`date +%w`;
+                GET_DAY=`date +%a`;
 
                 echo "Starting backup of ${DATABASE} mysql database." >> ${SET_LOGFILE};
 		${SET_MYSQLDUMP_BINARY} -u${SET_MYSQL_USER} -h${SET_MYSQL_HOST} -p${SET_MYSQL_PASS} --databases ${DATABASE} | gzip > ${SET_MYSQL_BACKUP_STORAGE}/${DATABASE}_${GET_DAY}.sql.gz
